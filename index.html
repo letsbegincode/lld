@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A Java-first low level design academy for SDE1, SDE2, and senior interview preparation."
+    />
+    <title>LLD Academy - Java Interview Mastery</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-head">
+          <a class="logo" href="#dashboard" data-page="dashboard">
+            <span class="logo-mark">LLD</span>
+            <span>
+              <strong>LLD Academy</strong>
+              <small>Java interview mastery</small>
+            </span>
+          </a>
+
+          <div class="sidebar-progress">
+            <div>
+              <span>Overall progress</span>
+              <strong id="sidebarPercent">0%</strong>
+            </div>
+            <div class="progress-track">
+              <div id="sidebarProgressFill" class="progress-fill"></div>
+            </div>
+          </div>
+
+          <label class="sidebar-search" for="searchInput">
+            <span>Search</span>
+            <input id="searchInput" type="search" placeholder="parking lot, strategy, lock..." />
+          </label>
+        </div>
+
+        <nav class="primary-nav" aria-label="Primary">
+          <button class="primary-nav-item active" type="button" data-page="dashboard">Dashboard</button>
+          <button class="primary-nav-item" type="button" data-page="quiz">Quiz Mode</button>
+          <button class="primary-nav-item" type="button" data-page="parked">Parked Lessons</button>
+          <button class="primary-nav-item" type="button" data-page="reference">Quick Reference</button>
+        </nav>
+
+        <div class="sidebar-section-title">Syllabus</div>
+        <nav id="topicNav" class="topic-nav" aria-label="Course topics"></nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <button id="sidebarToggle" class="icon-button" type="button" aria-label="Toggle sidebar">
+            <span></span>
+          </button>
+          <div id="breadcrumb" class="breadcrumb">Dashboard</div>
+          <div class="topbar-actions">
+            <button id="themeToggle" class="ghost-button" type="button">Theme</button>
+          </div>
+        </header>
+
+        <section id="content" class="content" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status"></div>
+
+    <script src="lld-syllabus.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
