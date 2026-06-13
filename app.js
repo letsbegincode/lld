@@ -2,11 +2,13 @@ const syllabus = window.LLD_SYLLABUS || [];
 const references = window.LLD_REFERENCE || [];
 
 const els = {
+  shell: document.querySelector(".shell"),
   content: document.querySelector("#content"),
   topicNav: document.querySelector("#topicNav"),
   breadcrumb: document.querySelector("#breadcrumb"),
   search: document.querySelector("#searchInput"),
   sidebar: document.querySelector("#sidebar"),
+  sidebarClose: document.querySelector("#sidebarClose"),
   sidebarToggle: document.querySelector("#sidebarToggle"),
   sidebarPercent: document.querySelector("#sidebarPercent"),
   sidebarProgressFill: document.querySelector("#sidebarProgressFill"),
@@ -31,6 +33,7 @@ let progress = store.get("lld-academy-progress", {});
 let notes = store.get("lld-academy-notes", {});
 let state = parseHash();
 let searchTerm = "";
+let topicRailCollapsed = store.get("lld-academy-topic-rail-collapsed", false);
 
 function parseHash() {
   const raw = location.hash.replace(/^#/, "");
@@ -311,8 +314,12 @@ function renderTopic() {
   const shownProgress = getLessonProgress(id);
 
   els.content.innerHTML = `
-    <section class="topic-layout">
+    <section class="topic-layout${topicRailCollapsed ? " rail-collapsed" : ""}">
       <aside class="topic-rail">
+        <div class="topic-rail-head">
+          <span>Subtopics</span>
+          <button class="mini-button" type="button" data-rail-toggle>Minimize</button>
+        </div>
         ${topic.subtopics.map((item, index) => {
           const itemId = lessonId(topic, item);
           const p = getLessonProgress(itemId);
@@ -326,6 +333,11 @@ function renderTopic() {
       </aside>
 
       <article class="topic-reader">
+        <div class="reader-toolbar">
+          <button class="mini-button" type="button" data-rail-toggle>
+            ${topicRailCollapsed ? "Show subtopics" : "Hide subtopics"}
+          </button>
+        </div>
         <header class="topic-hero">
           <div class="topic-meta">
             <span class="tag core">Week ${topic.week}</span>
@@ -367,6 +379,13 @@ function renderTopic() {
 
   els.content.querySelectorAll("[data-sub]").forEach((button) => {
     button.addEventListener("click", () => setHash({ page: "topic", topicId: topic.id, subId: button.dataset.sub }));
+  });
+  els.content.querySelectorAll("[data-rail-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      topicRailCollapsed = !topicRailCollapsed;
+      store.set("lld-academy-topic-rail-collapsed", topicRailCollapsed);
+      renderTopic();
+    });
   });
   els.content.querySelectorAll("[data-status]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -617,9 +636,21 @@ function render() {
 
 function syncSidebarForViewport() {
   if (window.innerWidth < 1120) {
-    els.sidebar.classList.add("collapsed");
+    setSidebarCollapsed(true);
   } else {
-    els.sidebar.classList.remove("collapsed");
+    setSidebarCollapsed(store.get("lld-academy-sidebar-collapsed", false));
+  }
+}
+
+function setSidebarCollapsed(collapsed, persist = false) {
+  els.sidebar.classList.toggle("collapsed", collapsed);
+  els.shell.classList.toggle("sidebar-collapsed", collapsed);
+  els.sidebarToggle.setAttribute("aria-expanded", String(!collapsed));
+  if (els.sidebarClose) {
+    els.sidebarClose.setAttribute("aria-expanded", String(!collapsed));
+  }
+  if (persist && window.innerWidth >= 1120) {
+    store.set("lld-academy-sidebar-collapsed", collapsed);
   }
 }
 
@@ -627,7 +658,7 @@ document.querySelectorAll("[data-page]").forEach((target) => {
   target.addEventListener("click", (event) => {
     event.preventDefault();
     setHash({ page: target.dataset.page });
-    if (window.innerWidth < 1120) els.sidebar.classList.add("collapsed");
+    if (window.innerWidth < 1120) setSidebarCollapsed(true);
   });
 });
 
@@ -637,8 +668,12 @@ els.search.addEventListener("input", (event) => {
 });
 
 els.sidebarToggle.addEventListener("click", () => {
-  els.sidebar.classList.toggle("collapsed");
+  setSidebarCollapsed(!els.sidebar.classList.contains("collapsed"), true);
 });
+
+if (els.sidebarClose) {
+  els.sidebarClose.addEventListener("click", () => setSidebarCollapsed(true, true));
+}
 
 els.themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("light");
