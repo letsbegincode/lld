@@ -294,7 +294,11 @@ function weekTitle(week) {
     5: "SDE2 product case studies",
     6: "Infrastructure-style LLD",
     7: "Marketplace systems",
-    8: "Games, ATM, and interview playbook"
+    8: "Games, ATM, and interview playbook",
+    9: "Phase 1: OS to JVM Bridge",
+    10: "Phase 2: Synchronization and lock-free",
+    11: "Phase 3: High-throughput thread management",
+    12: "Phase 4: Redis-Lite capstone"
   }[week] || "LLD practice";
 }
 

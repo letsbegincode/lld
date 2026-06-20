@@ -30,7 +30,7 @@ The included `vercel.json` keeps the app static and uses Vercel's default static
 
 ## Content Model
 
-The active course content lives in `lld-syllabus.js`.
+The active course content lives in `lld-syllabus.js`, with the advanced OS/JVM/concurrency Redis-Lite track added by `concurrency-track.js`.
 
 Each lesson is intentionally separated into clear study sections:
 
@@ -49,9 +49,9 @@ Each lesson is intentionally separated into clear study sections:
 
 The current syllabus includes:
 
-- 21 topics
-- 85 lessons
-- 255 interview Q&A prompts
-- Case studies such as Parking Lot, Vending Machine, Library Management, Elevator, Splitwise, BookMyShow, Cache, Rate Limiter, Task Scheduler, Food Delivery, Ride Sharing, Hotel Booking, Chess, and ATM
+- 25 topics
+- 115 lessons
+- 345 interview Q&A prompts
+- Case studies such as Parking Lot, Vending Machine, Library Management, Elevator, Splitwise, BookMyShow, Cache, Rate Limiter, Task Scheduler, Food Delivery, Ride Sharing, Hotel Booking, Chess, ATM, plus a 30-day OS/JVM-to-Redis-Lite concurrency capstone track
 
-Add or edit lessons by updating `window.LLD_SYLLABUS` in `lld-syllabus.js`. The site has no backend and no API hooks, so it can be deployed as plain static files.
+Add or edit base lessons by updating `window.LLD_SYLLABUS` in `lld-syllabus.js`. Add or edit the 30-day concurrency/Redis-Lite track in `concurrency-track.js`. The site has no backend and no API hooks, so it can be deployed as plain static files.
